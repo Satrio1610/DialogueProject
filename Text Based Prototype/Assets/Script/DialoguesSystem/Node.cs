@@ -6,13 +6,14 @@ using UnityEngine;
 public class Node {
 
 	[SerializeField]
-	private int _id;
+	protected int _id;
 	public enum NODE_TYPE {DIALOGUE,CHOICE};
 
 	[SerializeField]
 	protected NODE_TYPE NodeType; 
 
-	public Node(){
+	public Node(int id){
+		this._id = id; 
 	}
 
 	public NODE_TYPE getNodeType() {

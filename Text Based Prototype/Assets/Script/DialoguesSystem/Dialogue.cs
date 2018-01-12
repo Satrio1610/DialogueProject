@@ -11,7 +11,8 @@ public class Dialogue : Node {
 	[SerializeField]
 	private Character character;
 
-	public Dialogue(){
+	public Dialogue(int id) : base(id){
+		
 		this.NodeType = NODE_TYPE.DIALOGUE;
 		ListOfDialogues = new List<string> ();
 	}
