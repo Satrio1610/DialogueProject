@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/Scene/Test Scene/DataStructureTrial.unity
-  isLoaded: 1
-  isActive: 1
