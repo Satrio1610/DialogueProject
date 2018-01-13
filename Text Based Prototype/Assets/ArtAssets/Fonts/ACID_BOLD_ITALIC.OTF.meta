@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 0c7601d523f638d4dbb8ed0a43c5b7f6
+timeCreated: 1515872921
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Acid
+  fontNames:
+  - Acid
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
