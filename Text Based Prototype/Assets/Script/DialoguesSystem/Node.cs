@@ -4,13 +4,16 @@ using UnityEngine;
 
 [System.Serializable]
 public class Node {
-
-	[SerializeField]
-	protected int _id;
 	public enum NODE_TYPE {DIALOGUE,CHOICE};
 
 	[SerializeField]
+	protected int _id;
+
+	[SerializeField]
 	protected NODE_TYPE NodeType; 
+
+	[SerializeField]
+	protected ConditionalNextNode nextNode;
 
 	public Node(int id){
 		this._id = id; 
