@@ -20,7 +20,7 @@ public class ConditionalNextNode {
 	}
 
 	public void setConditional(bool trueOrFalse){
-		this.isConditional = false; 
+		this.isConditional = trueOrFalse; 
 	}
 
 	public void setDefaultNextNode(int nextNode){
@@ -44,6 +44,7 @@ public class ConditionalNextNode {
 
 		// go through the list of possible destination one by one, the first match is the next destination 
 		// NOTE: list of possible destination need to be in descending order of more requirement to less requirement
+		Debug.Log("checking");
 		for (int i = 0; i < this.possibleDestinationList.Count; i++) {
 
 			nextProgressionCondition = this.possibleDestinationList [i].Key;
@@ -60,7 +61,7 @@ public class ConditionalNextNode {
 	}
 
 	public static bool isValidDestination(ProgressionStats playerProgressionStats, ProgressionStats progressionCondition){
-		if (playerProgressionStats.getAffectionLevel () <= progressionCondition.getAffectionLevel ()) {
+		if (playerProgressionStats.getAffectionLevel () < progressionCondition.getAffectionLevel ()) {
 			return false; 
 		}
 
@@ -99,7 +100,7 @@ public class ConditionalNextNode {
 			}
 
 		}
-
+		Debug.Log ("check returns: " + hasAllRequiredNodes);
 		return hasAllRequiredNodes;
 	}
 

@@ -105,17 +105,55 @@ public class DayExecutionManager : MonoBehaviour {
 		Dialogue dialogue3 = new Dialogue ();
 		dialogue3.setListOfDialogues (dialogue3List);
 
-
 		ConditionalNextNode nextNode3 = new ConditionalNextNode (); 
-		nextNode3.setConditional (false);
-		nextNode3.setDefaultNextNode (-1);
+		nextNode3.setConditional (true);
+
+		ProgressionStats progStatsFor3 = new ProgressionStats (2, 0, 0);
+		nextNode3.populateDestinationList (new KeyValuePair<ProgressionStats, int> (progStatsFor3, 3));
+		nextNode3.setDefaultNextNode (4);
 
 		dialogue3.setNextNode (nextNode3);
+
+
+		List<string> dialogue4List = new List<string> {
+			"this is option1.",
+			"if you want to see another option, change your character progression in testing mode"
+		};
+
+		Dialogue dialogue4 = new Dialogue ();
+		dialogue4.setListOfDialogues (dialogue4List);
+
+		ConditionalNextNode nextNode4 = new ConditionalNextNode (); 
+		nextNode4.setConditional (false);
+
+		nextNode4.setDefaultNextNode (-1);
+
+		dialogue4.setNextNode (nextNode4);
+
+		List<string> dialogue5List = new List<string> {
+			"this is option2.",
+			"if you want to see another option, change your character progression in testing mode"
+		};
+
+		Dialogue dialogue5 = new Dialogue ();
+		dialogue5.setListOfDialogues (dialogue5List);
+
+		ConditionalNextNode nextNode5 = new ConditionalNextNode (); 
+		nextNode5.setConditional (true);
+
+		ProgressionStats progStats5 = new ProgressionStats (1, 0, 0);
+
+
+		nextNode5.setDefaultNextNode (-1);
+
+		dialogue5.setNextNode (nextNode5);
+
 
 		testNodes.Add (0, (Node)dialogue1);
 		testNodes.Add (1, (Node)dialogue2);
 		testNodes.Add (2, (Node)dialogue3);
-
+		testNodes.Add (3, (Node)dialogue4);
+		testNodes.Add (4, (Node)dialogue5);
 		testDay.populateConversationnodes (testNodes);
 		this.currentDay = testDay;
 	}

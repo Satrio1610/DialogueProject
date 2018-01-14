@@ -10,7 +10,7 @@ public class You : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (isTesting) {
-			yourProgression = new ProgressionStats (0, 0, 0);
+			yourProgression = new ProgressionStats (3, 0, 0);
 		}
 		// load the latest stats 
 		// Set to not destroyable
