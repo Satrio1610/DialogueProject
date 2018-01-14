@@ -7,16 +7,12 @@ public class Node {
 	public enum NODE_TYPE {DIALOGUE,CHOICE};
 
 	[SerializeField]
-	protected int _id;
-
-	[SerializeField]
 	protected NODE_TYPE NodeType; 
 
 	[SerializeField]
 	protected ConditionalNextNode nextNode;
 
-	public Node(int id){
-		this._id = id; 
+	public Node(){
 	}
 
 	public NODE_TYPE getNodeType() {

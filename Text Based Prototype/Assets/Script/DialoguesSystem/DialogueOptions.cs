@@ -8,9 +8,8 @@ public class DialogueOptions : Node {
 	[SerializeField]
 	private List<string> ListOfChoices;
 
-	public DialogueOptions(int id): base(id) {
+	public DialogueOptions(): base() {
 		// from parents
-		this._id = id; 
 		this.NodeType = NODE_TYPE.CHOICE;
 
 		// original

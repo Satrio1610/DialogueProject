@@ -14,7 +14,7 @@ public class Dialogue : Node {
 	[SerializeField]
 	private Character.CHARACTER_EXPRESSION expression; 
 
-	public Dialogue(int id) : base(id){
+	public Dialogue() : base(){
 		
 		this.NodeType = NODE_TYPE.DIALOGUE;
 		this.expression = Character.CHARACTER_EXPRESSION.DEFAULT;
