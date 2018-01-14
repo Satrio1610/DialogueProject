@@ -33,4 +33,8 @@ public class Dialogue : Node {
 	public void setListOfDialogues(List<string> dialogues) {
 		this.ListOfDialogues = new List<string> (dialogues);
 	}
+
+	public List<string> getListOfDialogues(){
+		return this.ListOfDialogues;
+	}
 }

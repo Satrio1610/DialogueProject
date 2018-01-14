@@ -20,4 +20,12 @@ public class Node {
 			return this.NodeType;
 		}
 	}
+
+	public void setNextNode(ConditionalNextNode cnn) {
+		this.nextNode = cnn;
+	}
+
+	public int getNextNode(You player){
+		return nextNode.obtainTheNextDestination (player);
+	}
 }

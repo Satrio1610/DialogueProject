@@ -4,10 +4,14 @@ using UnityEngine;
 // this script should contain the player's progression and their current stats on the game(affection, etc)
 public class You : MonoBehaviour {
 
-	public ProgressionStats yourProgression; 
-
+	public ProgressionStats yourProgression;
+	[SerializeField]
+	public bool isTesting;
 	// Use this for initialization
 	void Start () {
+		if (isTesting) {
+			yourProgression = new ProgressionStats (0, 0, 0);
+		}
 		// load the latest stats 
 		// Set to not destroyable
 	}

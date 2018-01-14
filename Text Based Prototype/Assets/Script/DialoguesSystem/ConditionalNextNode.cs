@@ -7,13 +7,24 @@ using UnityEngine;
 [System.Serializable]
 public class ConditionalNextNode {
 
-	// Should be from more specific requirement to less requirement, default should be last.
-	// if there is no conditional, the length of this should only be one
-	public List<KeyValuePair<ProgressionStats,int>> possibleDestinationList; 
+	private bool isConditional;
 
+	// Should be from more specific requirement to less requirement, default should be last.
+	// if there is no conditional, or for default destination, use default destination
+	private List<KeyValuePair<ProgressionStats,int>> possibleDestinationList; 
+	private int defaultDestination;
 	// Constructor
 	public ConditionalNextNode(){
+		isConditional = false; 
 		possibleDestinationList = new List<KeyValuePair<ProgressionStats, int>> ();
+	}
+
+	public void setConditional(bool trueOrFalse){
+		this.isConditional = false; 
+	}
+
+	public void setDefaultNextNode(int nextNode){
+		this.defaultDestination = nextNode;
 	}
 
 	public void populateDestinationList(KeyValuePair<ProgressionStats,int> nextPossibleDestination){
@@ -22,6 +33,12 @@ public class ConditionalNextNode {
 
 	// get the next valid destination for player
 	public int obtainTheNextDestination(You player){
+
+		if (this.isConditional == false) {
+			Debug.Log (this.defaultDestination);
+			return this.defaultDestination;
+		}
+
 		ProgressionStats currentPlayerProgression = player.yourProgression;
 		ProgressionStats nextProgressionCondition; 
 
@@ -37,7 +54,7 @@ public class ConditionalNextNode {
 
 		}
 
-		return -1; 
+		return defaultDestination;
 
 
 	}

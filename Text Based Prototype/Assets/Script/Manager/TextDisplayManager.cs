@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TextDisplayManager : MonoBehaviour {
@@ -21,10 +22,12 @@ public class TextDisplayManager : MonoBehaviour {
 	public enum STATE {STAND_BY_TO_NEXT_TEXT, STAND_BY_FINISH_DIALOGUE, DISPLAYING_TEXT, IDLE};
 	private STATE currentState;
 
+	private UnityEvent finishCurrentDialogueEvent;
 	// Use this for initialization
 	void Awake () {
 		this.currentState = STATE.IDLE; 
 		this.currentDialogueIndex = 0; 
+		finishCurrentDialogueEvent = new UnityEvent ();
 	}
 
 	// Update is called once per frame
@@ -41,6 +44,8 @@ public class TextDisplayManager : MonoBehaviour {
 					// inform the Day Manager that current dialogue is done
 					// move to idle
 					this.currentState = STATE.IDLE;
+					finishCurrentDialogueEvent.Invoke();
+
 					return; 
 				} else {
 					moveToNextDialogueSegment ();
@@ -96,5 +101,15 @@ public class TextDisplayManager : MonoBehaviour {
 
 		this.currentDialogueIndex = 0; 
 		moveToNextDialogueSegment ();
+	}
+
+	public void subscribeToFinishedDialogueEvent(UnityAction action){
+		this.finishCurrentDialogueEvent.AddListener (action);
+	}
+
+	public void showNextCharacter() {
+		if (this.currentState == STATE.STAND_BY_TO_NEXT_TEXT) {
+			changeToNextText = true;
+		}
 	}
 }
