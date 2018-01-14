@@ -6,13 +6,21 @@ using UnityEngine;
 public class DialogueOptions : Node {
 
 	[SerializeField]
-	private List<string> ListOfChoices;
+	private List<KeyValuePair<string,int>> ListOfChoices;
 
 	public DialogueOptions(): base() {
 		// from parents
 		this.NodeType = NODE_TYPE.CHOICE;
 
 		// original
-		this.ListOfChoices = new List<string> ();
+		this.ListOfChoices = new List<KeyValuePair<string,int>> ();
+	}
+
+	public void populateChoices(List<KeyValuePair<string,int>> choices){
+		this.ListOfChoices = choices; 
+	}
+
+	public List<KeyValuePair<string,int>> getChoices() {
+		return this.ListOfChoices;
 	}
 }

@@ -6,6 +6,8 @@ public class DayExecutionManager : MonoBehaviour {
 
 	[SerializeField]
 	private TextDisplayManager textDisplayManager;
+	[SerializeField]
+	private ChoiceButtonManager choiceButtonManager; 
 
 	[SerializeField]
 	private You player; 
@@ -46,16 +48,27 @@ public class DayExecutionManager : MonoBehaviour {
 			Debug.Log ("next node: " + a);
 		}
 
+		displayNode ();
+	}
+
+	void loadNextNodeFromChoice(int nodeId){
+		this.currentDay.getConversationNodes ().TryGetValue (nodeId, out this.currentNode);
+		displayNode ();
+	}
+
+	void displayNode() {
 		Node.NODE_TYPE currentNodeType = currentNode.getNodeType ();
 
 		if (currentNodeType == Node.NODE_TYPE.CHOICE) {
-		
+			DialogueOptions newOptions = (DialogueOptions)currentNode;
+			this.choiceButtonManager.showChoices (newOptions.getChoices ());
 		} else {
 			Dialogue newDialogue = (Dialogue)currentNode;
 			Debug.Log ("printing");
 			textDisplayManager.supplyNewDialogue (newDialogue.getListOfDialogues (), "hahahaha");
 		}
 	}
+
 
 	void initializeTestingEnvironment() {
 		Day testDay = new Day (); 
