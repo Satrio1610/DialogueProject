@@ -6,7 +6,7 @@ using UnityEngine;
 public class Dialogue : Node {
 	
 	[SerializeField]
-	public List<string> ListOfDialogues;
+	private List<string> ListOfDialogues;
 
 	[SerializeField]
 	private Character character;

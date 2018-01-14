@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Character: MonoBehaviour {
 	[SerializeField]
-	private string name;
+	private string characterName;
 
 	public enum CHARACTER_EXPRESSION
 	{
