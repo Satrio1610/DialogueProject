@@ -11,7 +11,7 @@ public class TestingScriptForDataStructure : MonoBehaviour {
 		this.DialogueNodes = new List<Node> (); 
 
 		var thisIsDialogue = new Dialogue (); 
-		var thisIsOption = new DialogueOptions ();
+		var thisIsOption = new Choice ();
 		this.DialogueNodes.Add (thisIsDialogue);
 		this.DialogueNodes.Add (thisIsOption);
 	}

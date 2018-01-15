@@ -27,8 +27,11 @@ public class DayExecutionManager : MonoBehaviour {
 		}
 
 		// subscribe to finish currentDialogue Event 
-		textDisplayManager.subscribeToFinishedDialogueEvent(loadNextNode);
+		this.textDisplayManager.subscribeToFinishedDialogueEvent(loadNextNode);
+		this.choiceButtonManager.subscribeToIntEventButtons (loadNextNodeFromChoice);
 
+		//start
+		this.choiceButtonManager.disableAllButtons();
 		loadNextNode ();
 	}
 
@@ -60,7 +63,7 @@ public class DayExecutionManager : MonoBehaviour {
 		Node.NODE_TYPE currentNodeType = currentNode.getNodeType ();
 
 		if (currentNodeType == Node.NODE_TYPE.CHOICE) {
-			DialogueOptions newOptions = (DialogueOptions)currentNode;
+			Choice newOptions = (Choice)currentNode;
 			this.choiceButtonManager.showChoices (newOptions.getChoices ());
 		} else {
 			Dialogue newDialogue = (Dialogue)currentNode;
@@ -112,20 +115,29 @@ public class DayExecutionManager : MonoBehaviour {
 		List<string> dialogue3List = new List<string> {
 			"sampai disini dulu",	
 			"semoga berhasil",
-			"talk to you later"
+			"now pick an option to test this buttons"
 		};
 
 		Dialogue dialogue3 = new Dialogue ();
 		dialogue3.setListOfDialogues (dialogue3List);
 
 		ConditionalNextNode nextNode3 = new ConditionalNextNode (); 
-		nextNode3.setConditional (true);
+		nextNode3.setConditional (false);
 
 		ProgressionStats progStatsFor3 = new ProgressionStats (2, 0, 0);
 		nextNode3.populateDestinationList (new KeyValuePair<ProgressionStats, int> (progStatsFor3, 3));
-		nextNode3.setDefaultNextNode (4);
+		nextNode3.setDefaultNextNode (5);
 
 		dialogue3.setNextNode (nextNode3);
+
+		Choice choice1 = new Choice(); 
+
+		KeyValuePair<string,int> c1 = new KeyValuePair<string, int> ("option1", 3);
+		KeyValuePair<string,int> c2 = new KeyValuePair<string,int> ("option2", 4);
+
+		List<KeyValuePair<string,int>> listOfChoices1 = new List<KeyValuePair<string,int>> { c1, c2 };
+
+		choice1.populateChoices (listOfChoices1);
 
 
 		List<string> dialogue4List = new List<string> {
@@ -165,6 +177,7 @@ public class DayExecutionManager : MonoBehaviour {
 		testNodes.Add (0, (Node)dialogue1);
 		testNodes.Add (1, (Node)dialogue2);
 		testNodes.Add (2, (Node)dialogue3);
+		testNodes.Add (5, (Node)choice1);
 		testNodes.Add (3, (Node)dialogue4);
 		testNodes.Add (4, (Node)dialogue5);
 		testDay.populateConversationnodes (testNodes);

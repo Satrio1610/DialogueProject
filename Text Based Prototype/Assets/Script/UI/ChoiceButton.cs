@@ -5,15 +5,21 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class ChoiceButton : MonoBehaviour {
+
+	private class ChoiceButtonIntEvent: UnityEvent<int>{};
+
 	private Button button;
 	private Text buttonText; 
 	private int nextNodeID; 
+	private ChoiceButtonIntEvent intEvent; 
 
 	void Awake() {
 		this.button = this.GetComponent<Button> (); 
 		this.buttonText = this.GetComponentInChildren<Text> (); 
 		this.nextNodeID = -1; 
 
+		this.intEvent = new ChoiceButtonIntEvent ();
+		this.button.onClick.AddListener (delegate{this.intEvent.Invoke(nextNodeID);});
 	}
 
 	// Use this for initialization
@@ -21,7 +27,7 @@ public class ChoiceButton : MonoBehaviour {
 		this.gameObject.SetActive (false);
 	}
 	
-	public void setOnActiveEvent(UnityAction action) {
+	public void subscribeToOnClickEvent(UnityAction action) {
 		this.button.onClick.AddListener (action);
 	}
 
@@ -32,4 +38,9 @@ public class ChoiceButton : MonoBehaviour {
 	public void setNextNodeID(int nodeID){
 		this.nextNodeID = nodeID; 
 	}
+
+	public void subscribeToIntEvent(UnityAction<int> intAction){
+		this.intEvent.AddListener (intAction);
+	}
+
 }

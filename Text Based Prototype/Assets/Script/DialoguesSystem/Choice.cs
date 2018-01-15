@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class DialogueOptions : Node {
+public class Choice : Node {
 
 	[SerializeField]
 	private List<KeyValuePair<string,int>> ListOfChoices;
 
-	public DialogueOptions(): base() {
+	public Choice(): base() {
 		// from parents
 		this.NodeType = NODE_TYPE.CHOICE;
 

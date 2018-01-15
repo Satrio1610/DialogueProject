@@ -6,13 +6,13 @@ using UnityEngine.UI;
 	
 // this script should be the one managing the buttons in term of showing the correct number of buttons + showing the 
 public class ChoiceButtonManager : MonoBehaviour {
+
 	[SerializeField]
 	ChoiceButton[] choiceButtons; 
 
-	void Start() {
-		this.disableAllButtons ();
-		//List<string> testString = new List<string>{ "1", "2","3" };
-		//this.showChoices (testString);
+	void Awake() {
+		this.choiceButtons = this.GetComponentsInChildren<ChoiceButton> (); 
+		this.subsribeToOnClickEventButtons (disableAllButtons);
 	}
 
 	public void disableAllButtons() {
@@ -26,6 +26,18 @@ public class ChoiceButtonManager : MonoBehaviour {
 			choiceButtons [i].gameObject.SetActive (true);
 			choiceButtons [i].setButtonText (options [i].Key);
 			choiceButtons [i].setNextNodeID (options [i].Value);
+		}
+	}
+
+	public void subscribeToIntEventButtons(UnityAction<int> action){
+		for (int i = 0; i < choiceButtons.Length; i++) {
+			choiceButtons [i].subscribeToIntEvent (action);
+		}
+	}
+
+	public void subsribeToOnClickEventButtons(UnityAction action){
+		for (int i = 0; i < choiceButtons.Length; i++) {
+			choiceButtons [i].subscribeToOnClickEvent (action);
 		}
 	}
 }
