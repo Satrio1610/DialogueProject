@@ -37,4 +37,8 @@ public class Dialogue : Node {
 	public List<string> getListOfDialogues(){
 		return this.ListOfDialogues;
 	}
+
+	public Character getDialogueCharacter() {
+		return this.character;
+	}
 }

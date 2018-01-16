@@ -39,8 +39,8 @@ public class DayExecutionManager : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0)) {
 			textDisplayManager.showNextCharacter ();
 		}
-	}
-
+	}	
+		
 	void loadNextNode(){
 		if (currentNode == null) {
 			currentDay.getConversationNodes ().TryGetValue (currentDay.getStartingNode (), out currentNode);
@@ -67,12 +67,15 @@ public class DayExecutionManager : MonoBehaviour {
 			this.choiceButtonManager.showChoices (newOptions.getChoices ());
 		} else {
 			Dialogue newDialogue = (Dialogue)currentNode;
-			Debug.Log ("printing");
-			textDisplayManager.supplyNewDialogue (newDialogue.getListOfDialogues (), "hahahaha");
+			textDisplayManager.supplyNewDialogue (newDialogue.getListOfDialogues (), "test name");
 		}
 	}
 
+	public void setUpDay() {
+		
+	}
 
+	#region testing
 	void initializeTestingEnvironment() {
 		Day testDay = new Day (); 
 		testDay.setStartingNode (0);
@@ -183,4 +186,6 @@ public class DayExecutionManager : MonoBehaviour {
 		testDay.populateConversationnodes (testNodes);
 		this.currentDay = testDay;
 	}
+
+	#endregion
 }

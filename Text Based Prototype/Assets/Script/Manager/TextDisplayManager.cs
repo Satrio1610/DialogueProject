@@ -6,13 +6,25 @@ using UnityEngine.UI;
 
 public class TextDisplayManager : MonoBehaviour {
 
+	[Header("TEXT COMPONENT")]
 	[SerializeField]
 	private Text dialogueDisplay; 
 	[SerializeField]
 	private Text nameDisplay; 
 
+	[Header("LETTER/CHARACTER ADDITION COOLDOWN")]
 	[SerializeField]
 	private float letterAdditionCooldown; 
+
+	[Header("IMAGE COMPONENT")]
+	[SerializeField]
+	private Image dialogueBox; 
+	[SerializeField]
+	[Tooltip("Dialogue box wihout name box attached")]
+	private Sprite noNameSprite; 
+	[SerializeField]
+	[Tooltip("Dialogue box with name box attached")]
+	private Sprite nameSprite;
 
 	private List<string> listOfDialogues; 
 	private char[] currentText; 
@@ -23,13 +35,26 @@ public class TextDisplayManager : MonoBehaviour {
 	private STATE currentState;
 
 	private UnityEvent finishCurrentDialogueEvent;
+
+	#region set up 
 	// Use this for initialization
 	void Awake () {
 		this.currentState = STATE.IDLE; 
 		this.currentDialogueIndex = 0; 
 		finishCurrentDialogueEvent = new UnityEvent ();
+
+		//obtain dialogueBox Image 
+		this.dialogueBox = this.GetComponent<Image>();
 	}
 
+	// should be called by the DayExecutionManager
+	public void setDialogueSprites(Sprite noNameDialogueBox, Sprite namedDialogueBox){
+		this.noNameSprite = noNameDialogueBox;
+		this.nameSprite = namedDialogueBox;
+	}
+
+
+	#endregion
 	// Update is called once per frame
 	bool changeToNextText = false; 
 
@@ -59,9 +84,12 @@ public class TextDisplayManager : MonoBehaviour {
 		}
 	}
 
+	#region letter update
+
 	float currentWaitingTime = 0.0f;
 	int currentLetterPointer = 0;
 	string textToDisplay;
+
 	void moveToNextDialogueSegment() {
 		this.currentText = this.listOfDialogues [currentDialogueIndex++].ToCharArray();
 
@@ -103,9 +131,14 @@ public class TextDisplayManager : MonoBehaviour {
 		moveToNextDialogueSegment ();
 	}
 
+	#endregion
+
+	#region event subscription
 	public void subscribeToFinishedDialogueEvent(UnityAction action){
 		this.finishCurrentDialogueEvent.AddListener (action);
 	}
+	#endregion
+
 
 	public void showNextCharacter() {
 		if (this.currentState == STATE.STAND_BY_TO_NEXT_TEXT) {

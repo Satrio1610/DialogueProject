@@ -17,12 +17,14 @@ public class ChoiceButtonManager : MonoBehaviour {
 
 	public void disableAllButtons() {
 		for (int i = 0; i < choiceButtons.Length; i++) {
+			Debug.Log ("disable");
 			choiceButtons [i].gameObject.SetActive (false);
 		}	
 	}
 
 	public void showChoices(List<KeyValuePair<string,int>> options){
 		for (int i = 0; i < options.Count; i++) {
+			Debug.Log ("emable" + i);
 			choiceButtons [i].gameObject.SetActive (true);
 			choiceButtons [i].setButtonText (options [i].Key);
 			choiceButtons [i].setNextNodeID (options [i].Value);

@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 // this script should contain the player's progression and their current stats on the game(affection, etc)
 public class You : MonoBehaviour {
+	public enum NAME
+	{
+		SHIO,
+		GRAHAM
+	}
 
+	public NAME yourCharacter; 
 	public ProgressionStats yourProgression;
 	[SerializeField]
 	public bool isTesting;
@@ -24,19 +30,28 @@ public class You : MonoBehaviour {
 // the following class will be used by You object and conditional Next Node to cross check condition 
 [System.Serializable]
 public class ProgressionStats {
+	[SerializeField]
+	private You.NAME playerCharacter; 
+	[SerializeField]
 	private int affectionlevel; 
+	[SerializeField]
 	private int currentDay; 
+	[SerializeField]
 	private int currentNode;
 
 	// key is day, list is nodes for each day
 	private Dictionary<int,List<int>> nodesCompleted; 
 
-	public ProgressionStats(int aLevel, int cDay, int cNode){
+	public ProgressionStats( int aLevel, int cDay, int cNode){
 		this.affectionlevel = aLevel; 
 		this.currentDay = cDay;
 		this.currentNode = cNode; 
 
 		nodesCompleted = new Dictionary<int,List<int>> ();
+	}
+
+	public void setPlayerCharacter( You.NAME characterName){
+		this.playerCharacter =  characterName;
 	}
 
 	// accessor 

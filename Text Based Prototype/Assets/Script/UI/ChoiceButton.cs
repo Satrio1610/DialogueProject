@@ -24,7 +24,7 @@ public class ChoiceButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		this.gameObject.SetActive (false);
+		//this.gameObject.SetActive (false);
 	}
 	
 	public void subscribeToOnClickEvent(UnityAction action) {
@@ -42,5 +42,6 @@ public class ChoiceButton : MonoBehaviour {
 	public void subscribeToIntEvent(UnityAction<int> intAction){
 		this.intEvent.AddListener (intAction);
 	}
+		
 
 }

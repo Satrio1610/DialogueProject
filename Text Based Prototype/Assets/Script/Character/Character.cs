@@ -26,6 +26,10 @@ public class Character: MonoBehaviour {
 		return spriteSheet [2];
 	}
 
+	public string name() {
+		return this.characterName; 
+	}
+
 	public Sprite getCharacterExpression(CHARACTER_EXPRESSION expression){
 	
 		switch (expression) {
