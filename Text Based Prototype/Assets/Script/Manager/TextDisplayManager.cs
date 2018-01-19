@@ -130,11 +130,13 @@ public class TextDisplayManager : MonoBehaviour {
 
 		this.listOfDialogues = newDialogues;
 
+		// Switch the box if the name is empty
 		if (name == string.Empty) {
 			this.dialogueBox.sprite = this.noNameSprite; 
 		} else {
 			this.dialogueBox.sprite = this.nameSprite;
 		}
+
 		this.nameDisplay.text = name; 
 
 		this.currentDialogueIndex = 0; 
