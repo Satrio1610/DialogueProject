@@ -53,6 +53,10 @@ public class TextDisplayManager : MonoBehaviour {
 		this.nameSprite = namedDialogueBox;
 	}
 
+	public void setTextDisplayCooldown(float coolDown_Second){
+		this.letterAdditionCooldown = coolDown_Second; 
+	}
+
 
 	#endregion
 	// Update is called once per frame

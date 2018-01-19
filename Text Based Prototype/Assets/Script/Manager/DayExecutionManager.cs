@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class DayExecutionManager : MonoBehaviour {
 
+
 	[SerializeField]
-	private TextDisplayManager textDisplayManager;
-	[SerializeField]
-	private ChoiceButtonManager choiceButtonManager; 
+	private InGameUIManager uiManager;
 
 	[SerializeField]
 	private You player; 
 
 	private Day currentDay;
 	private Node currentNode; 
+
 	[Header("Testing Purpose")]
 	[SerializeField]
 	private bool isTesting;
+	[SerializeField]
+	private string testCharacterName; 
 
+	private bool hasSubscribeToUiDisplayEvent = false;
 	// Use this for initialization
 	void Start () {
 		if (isTesting) {
@@ -25,19 +28,24 @@ public class DayExecutionManager : MonoBehaviour {
 		} else {
 		
 		}
+		// set the ui
 
 		// subscribe to finish currentDialogue Event 
-		this.textDisplayManager.subscribeToFinishedDialogueEvent(loadNextNode);
-		this.choiceButtonManager.subscribeToIntEventButtons (loadNextNodeFromChoice);
+		if(hasSubscribeToUiDisplayEvent == false){
+			this.uiManager.subscribeToChoiceButtonsManager_IntEvent(this.loadNextNodeFromChoice);
+			this.uiManager.subscribeToTextManagers_FinishedDialogueEvent (this.loadNextNode);	
 
-		//start
-		this.choiceButtonManager.disableAllButtons();
+			this.hasSubscribeToUiDisplayEvent = true; 
+		}
+
+		this.uiManager.setActiveUIComponent( player.yourCharacter);
+
 		loadNextNode ();
 	}
 
 	void Update() {
 		if (Input.GetMouseButtonDown (0)) {
-			textDisplayManager.showNextCharacter ();
+			this.uiManager.showNextText ();
 		}
 	}	
 		
@@ -60,15 +68,7 @@ public class DayExecutionManager : MonoBehaviour {
 	}
 
 	void displayNode() {
-		Node.NODE_TYPE currentNodeType = currentNode.getNodeType ();
-
-		if (currentNodeType == Node.NODE_TYPE.CHOICE) {
-			Choice newOptions = (Choice)currentNode;
-			this.choiceButtonManager.showChoices (newOptions.getChoices ());
-		} else {
-			Dialogue newDialogue = (Dialogue)currentNode;
-			textDisplayManager.supplyNewDialogue (newDialogue.getListOfDialogues (), "test name");
-		}
+		this.uiManager.updateDisplayWithCurrentNode (this.currentNode);
 	}
 
 	public void setUpDay() {
@@ -77,17 +77,18 @@ public class DayExecutionManager : MonoBehaviour {
 
 	#region testing
 	void initializeTestingEnvironment() {
+		Character testCharacter = new Character ();
+		testCharacter.setName (this.testCharacterName);
+
 		Day testDay = new Day (); 
 		testDay.setStartingNode (0);
 
 		Dictionary<int,Node> testNodes = new Dictionary<int, Node> (); 
 
 		List<string> dialogue1List = new List<string> {
-			"Hi.",
-			"How Are You",
-			"It's so nice to see you again",
-			"So what do you want to do today?",
-			"Me? I'm fine with anything."
+			"Hmm... I still can't believe that he is really going to come see me off...",
+			"I mean, it's not a bad thing.",
+
 		};
 
 		Dialogue dialogue1 = new Dialogue ();
@@ -97,13 +98,15 @@ public class DayExecutionManager : MonoBehaviour {
 		nextNode1.setConditional (false);
 		nextNode1.setDefaultNextNode (1);
 
+		dialogue1.setCharacter (testCharacter);
+
 		dialogue1.setNextNode (nextNode1);
 
 		List<string> dialogue2List = new List<string> {
-			"halo.",
-			"ini cuma test.",
-			"semoga ini berjalan dengan baik",
-			"lorem ipsum"
+			"uuu... I am nervous...",
+			"I hope this time around it will be better than our last date...",
+			"Does he even actually consider it a date? Or is he just being friendly and offer to help me find the figurine that I want..",
+			"Am I getting ahead of myself? is it just me that think he is interested in me?"
 		};
 
 		Dialogue dialogue2 = new Dialogue (); 
@@ -113,12 +116,19 @@ public class DayExecutionManager : MonoBehaviour {
 		nextNode2.setConditional (false);
 		nextNode2.setDefaultNextNode (2);
 
+		dialogue2.setCharacter (testCharacter);
 		dialogue2.setNextNode (nextNode2);
 
 		List<string> dialogue3List = new List<string> {
-			"sampai disini dulu",	
-			"semoga berhasil",
-			"now pick an option to test this buttons"
+			"What if he think I am weird after that outing.", 
+			"He did say he enjoy our time together though...",
+			"But, what if he was just being kind... What if he actually think otherwise!?",
+			"Shio... Why did you even decide to get a kid's seat for lunch!",
+			"Stupid! STUPID!",
+			"...",
+			"Huh?",
+			"Oh no! He's already here!?",
+			"What should I tell him..."
 		};
 
 		Dialogue dialogue3 = new Dialogue ();
@@ -131,12 +141,13 @@ public class DayExecutionManager : MonoBehaviour {
 		nextNode3.populateDestinationList (new KeyValuePair<ProgressionStats, int> (progStatsFor3, 3));
 		nextNode3.setDefaultNextNode (5);
 
+		dialogue3.setCharacter (testCharacter);
 		dialogue3.setNextNode (nextNode3);
 
 		Choice choice1 = new Choice(); 
 
-		KeyValuePair<string,int> c1 = new KeyValuePair<string, int> ("option1", 3);
-		KeyValuePair<string,int> c2 = new KeyValuePair<string,int> ("option2", 4);
+		KeyValuePair<string,int> c1 = new KeyValuePair<string, int> ("Don't answer immediately", 3);
+		KeyValuePair<string,int> c2 = new KeyValuePair<string,int> ("Tell him where you currently are", 4);
 
 		List<KeyValuePair<string,int>> listOfChoices1 = new List<KeyValuePair<string,int>> { c1, c2 };
 
@@ -144,8 +155,8 @@ public class DayExecutionManager : MonoBehaviour {
 
 
 		List<string> dialogue4List = new List<string> {
-			"this is option1.",
-			"if you want to see another option, change your character progression in testing mode"
+			"Calm down... Calm Down...",
+			"Now, where were we?"
 		};
 
 		Dialogue dialogue4 = new Dialogue ();
@@ -154,13 +165,15 @@ public class DayExecutionManager : MonoBehaviour {
 		ConditionalNextNode nextNode4 = new ConditionalNextNode (); 
 		nextNode4.setConditional (false);
 
-		nextNode4.setDefaultNextNode (-1);
+		nextNode4.setDefaultNextNode (5);
 
+		dialogue4.setCharacter (testCharacter);
 		dialogue4.setNextNode (nextNode4);
 
 		List<string> dialogue5List = new List<string> {
-			"this is option2.",
-			"if you want to see another option, change your character progression in testing mode"
+			"Hummm... I hope I look okay...",
+			"But... He does like to wear fancy stuff.",
+			"No matter what I do, I'll probably look like a plebian next to him."
 		};
 
 		Dialogue dialogue5 = new Dialogue ();
@@ -174,6 +187,7 @@ public class DayExecutionManager : MonoBehaviour {
 
 		nextNode5.setDefaultNextNode (-1);
 
+		dialogue5.setCharacter (testCharacter);
 		dialogue5.setNextNode (nextNode5);
 
 

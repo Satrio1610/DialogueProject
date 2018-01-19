@@ -13,6 +13,8 @@ public class ChoiceButtonManager : MonoBehaviour {
 	void Awake() {
 		this.choiceButtons = this.GetComponentsInChildren<ChoiceButton> (); 
 		this.subsribeToOnClickEventButtons (disableAllButtons);
+
+		this.disableAllButtons ();
 	}
 
 	public void disableAllButtons() {

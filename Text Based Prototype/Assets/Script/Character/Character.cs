@@ -26,6 +26,10 @@ public class Character: MonoBehaviour {
 		return spriteSheet [2];
 	}
 
+	public void setName(string name) {
+		this.characterName = name; 
+	}
+
 	public string name() {
 		return this.characterName; 
 	}
