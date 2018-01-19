@@ -28,6 +28,9 @@ public class ChoiceButton : MonoBehaviour {
 	}
 	
 	public void subscribeToOnClickEvent(UnityAction action) {
+		if (this.button == null) {
+			this.button = this.GetComponent<Button> ();
+		}
 		this.button.onClick.AddListener (action);
 	}
 
@@ -40,6 +43,9 @@ public class ChoiceButton : MonoBehaviour {
 	}
 
 	public void subscribeToIntEvent(UnityAction<int> intAction){
+		if (this.intEvent == null) {
+			this.intEvent = new ChoiceButtonIntEvent ();
+		}
 		this.intEvent.AddListener (intAction);
 	}
 		
