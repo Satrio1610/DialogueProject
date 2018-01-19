@@ -80,10 +80,32 @@ public class DayExecutionManager : MonoBehaviour {
 		Character testCharacter = new Character ();
 		testCharacter.setName (this.testCharacterName);
 
+		Character narratorCharacter = new Character ();
+		narratorCharacter.setName (string.Empty);
+
 		Day testDay = new Day (); 
-		testDay.setStartingNode (0);
+		testDay.setStartingNode (10);
 
 		Dictionary<int,Node> testNodes = new Dictionary<int, Node> (); 
+
+
+		//// list of dialogues nodes////
+		List<string> dialogue0List = new List<string> {
+			"> Airport, Food Court.",
+			"> You've finished checking in and have your boarding pass with you.",
+			"> You are now waiting for Graham to come."
+		};
+
+		Dialogue dialogue0 = new Dialogue ();
+		dialogue0.setListOfDialogues (dialogue0List);
+
+		ConditionalNextNode nextNode0 = new ConditionalNextNode (); 
+		nextNode0.setConditional (false);
+		nextNode0.setDefaultNextNode (0);
+
+		dialogue0.setCharacter (narratorCharacter);
+
+		dialogue0.setNextNode (nextNode0);
 
 		List<string> dialogue1List = new List<string> {
 			"Hmm... I still can't believe that he is really going to come see me off...",
@@ -190,7 +212,7 @@ public class DayExecutionManager : MonoBehaviour {
 		dialogue5.setCharacter (testCharacter);
 		dialogue5.setNextNode (nextNode5);
 
-
+		testNodes.Add (10, (Node)dialogue0);
 		testNodes.Add (0, (Node)dialogue1);
 		testNodes.Add (1, (Node)dialogue2);
 		testNodes.Add (2, (Node)dialogue3);
