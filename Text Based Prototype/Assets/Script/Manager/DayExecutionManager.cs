@@ -158,7 +158,7 @@ public class DayExecutionManager : MonoBehaviour {
 			"Calm down... Calm Down...",
 			"Now, where were we?"
 		};
-
+			
 		Dialogue dialogue4 = new Dialogue ();
 		dialogue4.setListOfDialogues (dialogue4List);
 

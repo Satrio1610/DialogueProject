@@ -147,6 +147,14 @@ public class TextDisplayManager : MonoBehaviour {
 	public void showNextCharacter() {
 		if (this.currentState == STATE.STAND_BY_TO_NEXT_TEXT) {
 			changeToNextText = true;
+			return;
+		}
+
+		if(this.currentState == STATE.DISPLAYING_TEXT){
+			this.currentWaitingTime = 0.0f; 
+			dialogueDisplay.text = new string(this.currentText);
+			this.currentState = STATE.STAND_BY_TO_NEXT_TEXT;
+			return;
 		}
 	}
 }
