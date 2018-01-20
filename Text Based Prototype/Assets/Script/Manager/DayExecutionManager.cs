@@ -46,9 +46,6 @@ public class DayExecutionManager : MonoBehaviour {
 	}
 
 	void Update() {
-		if (Input.GetMouseButtonDown (0)) {
-			this.uiManager.showNextText ();
-		}
 	}	
 		
 	void loadNextNode(){
@@ -80,6 +77,10 @@ public class DayExecutionManager : MonoBehaviour {
 
 	public void setUpDay() {
 		
+	}
+
+	public void callNextText() {
+		this.uiManager.showNextText ();
 	}
 
 	#region testing
