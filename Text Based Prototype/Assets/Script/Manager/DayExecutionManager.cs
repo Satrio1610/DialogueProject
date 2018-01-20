@@ -12,6 +12,8 @@ public class DayExecutionManager : MonoBehaviour {
 	private You player; 
 
 	private Day currentDay;
+	private int currentDayID; 
+
 	private Node currentNode; 
 
 	[Header("Testing Purpose")]
@@ -52,11 +54,16 @@ public class DayExecutionManager : MonoBehaviour {
 	void loadNextNode(){
 		if (currentNode == null) {
 			currentDay.getConversationNodes ().TryGetValue (currentDay.getStartingNode (), out currentNode);
+			this.player.yourProgression.setCurrentNode (this.currentDayID,currentDay.getStartingNode());
 		} else {
 			// on finish traversing, log player history 
 			int a = currentNode.getNextNode (player);	
+
+			this.player.yourProgression.setCurrentNode (this.currentDayID,a);
+
 			currentDay.getConversationNodes ().TryGetValue (a, out currentNode);
 			Debug.Log ("next node: " + a);
+
 		}
 
 		displayNode ();
@@ -221,6 +228,9 @@ public class DayExecutionManager : MonoBehaviour {
 		testNodes.Add (4, (Node)dialogue5);
 		testDay.populateConversationnodes (testNodes);
 		this.currentDay = testDay;
+		this.currentDayID = 0; 
+
+		this.player.yourProgression.setCurrentDay (this.currentDayID);
 	}
 
 	#endregion

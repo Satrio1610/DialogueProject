@@ -13,18 +13,12 @@ public class InGameUIManager : MonoBehaviour {
 	[SerializeField]
 	private ChoiceButtonManager ShioChoiceButtons;
 
-	[SerializeField]
-	private Sprite[] ShioDialogueBoxesImages;
-
 	[Header("GRAHAM UI ELEMENTS")]
 	[SerializeField]
 	private TextDisplayManager GrahamTextDisplay;
 
 	[SerializeField]
 	private ChoiceButtonManager GrahamChoiceButtons; 
-
-	[SerializeField]
-	private Sprite[] GrahamDialogueBoxesImages;
 
 	[Header("TEXT DISPLAY COOLDOWN")]
 	private float textDisplayCooldown; 
@@ -38,7 +32,6 @@ public class InGameUIManager : MonoBehaviour {
 	public void setActiveUIComponent(You.NAME activeCharacter){
 		if (activeCharacter == You.NAME.GRAHAM) {
 			this.activeTextDisplayManager = GrahamTextDisplay;
-			this.activeTextDisplayManager.setDialogueSprites (GrahamDialogueBoxesImages [0], GrahamDialogueBoxesImages [1]);
 
 			this.activeChoiceButtonManager = GrahamChoiceButtons;
 
@@ -47,7 +40,6 @@ public class InGameUIManager : MonoBehaviour {
 
 		} else {
 			this.activeTextDisplayManager = ShioTextDisplay;
-			this.activeTextDisplayManager.setDialogueSprites (ShioDialogueBoxesImages [0], ShioDialogueBoxesImages [1]);
 			this.activeChoiceButtonManager = ShioChoiceButtons;
 
 			this.GrahamTextDisplay.gameObject.SetActive (false); 

@@ -144,8 +144,8 @@ MonoBehaviour:
   nameDisplay: {fileID: 1188523085}
   letterAdditionCooldown: 0.01
   dialogueBox: {fileID: 144004344}
-  noNameSprite: {fileID: 0}
-  nameSprite: {fileID: 0}
+  noNameSprite: {fileID: 21300000, guid: a15be929322094e41a770c9c4acdddc5, type: 3}
+  nameSprite: {fileID: 21300000, guid: f5b37882435cb064d85db04eb9211fdd, type: 3}
 --- !u!114 &144004344 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114603786935798562, guid: 9d4a42ca7d38e0d4c92d0a27067b2a4e,
@@ -881,14 +881,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShioTextDisplay: {fileID: 144004343}
   ShioChoiceButtons: {fileID: 1874069682}
-  ShioDialogueBoxesImages:
-  - {fileID: 21300000, guid: a15be929322094e41a770c9c4acdddc5, type: 3}
-  - {fileID: 21300000, guid: f5b37882435cb064d85db04eb9211fdd, type: 3}
   GrahamTextDisplay: {fileID: 1058268917}
   GrahamChoiceButtons: {fileID: 761663336}
-  GrahamDialogueBoxesImages:
-  - {fileID: 21300004, guid: a15be929322094e41a770c9c4acdddc5, type: 3}
-  - {fileID: 21300002, guid: f5b37882435cb064d85db04eb9211fdd, type: 3}
 --- !u!114 &986531111 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114003278751171896, guid: 9d4a42ca7d38e0d4c92d0a27067b2a4e,
@@ -915,8 +909,8 @@ MonoBehaviour:
   nameDisplay: {fileID: 1223473821}
   letterAdditionCooldown: 0.01
   dialogueBox: {fileID: 1058268919}
-  noNameSprite: {fileID: 0}
-  nameSprite: {fileID: 0}
+  noNameSprite: {fileID: 21300004, guid: a15be929322094e41a770c9c4acdddc5, type: 3}
+  nameSprite: {fileID: 21300002, guid: f5b37882435cb064d85db04eb9211fdd, type: 3}
 --- !u!114 &1058268919 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114558736448731690, guid: c2f9126ac74ec4341a415b9e8ca7e69c,
