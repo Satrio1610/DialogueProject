@@ -78,6 +78,14 @@ public class ProgressionStats {
 		return this.affectionlevel; 
 	}
 
+	public void setAffectionLevel(int newAffectionLevel) {
+		this.affectionlevel = newAffectionLevel;
+	}
+
+	public void addAffectionLevel(int addedLevel){
+		this.affectionlevel += addedLevel;	
+	}
+
 	public int getCurrentDay() {
 		return this.currentDay; 
 	}

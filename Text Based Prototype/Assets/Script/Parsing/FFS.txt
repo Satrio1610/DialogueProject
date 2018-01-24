@@ -1,0 +1,124 @@
+Date: NA
+Background: Graham’s room
+No Sprite
+[clicking sounds] …
+[clicking sounds] …
+It’s that time of the year again.
+[clicking sounds] …
+I hate bidding for modules!!!!
+Let’s see…
+I need to take CS3283 this semester so I can graduate in time…
+Gambatte Graham!!
+It’s your last semester, so do your best!!
+...huh?
+What is this?
+I need to form a group before I can register for the module?! What the fuck??? What fucking logic is this????? What if I have no friends??? Does that mean I can’t graduate??????
+…
+Come to think of it, I think Shio mentioned that she’s taking the module this semester too. I should ask her if she has a group. Maybe I can group with Shio, and take this chance to get closer to her.
+[beeping sounds] (You send Shio a text asking if she has formed a team yet)
+Background: Graham’s room + phone
+Show Sprites: Shio’s DP (left), Graham’s DP (right)
+Graham: hey you taking CS3283 next sem right
+Graham: have you found a group
+Shio: Yup
+Graham: oh. Is there space in your  group for me? :P
+Shio: Hmmm
+Shio: Not sure, need to ask first
+Graham: okay
+Shio: I’ll get back to you later
+Graham: ok thanks
+Background: Graham’s room (put away phone)
+No Sprite
+[sound of Graham putting away his phone]
+I hope it goes well. I do need to graduate…
+And Shio…
+I’ve always found her easy to talk to, which is nice considering how socially awkward I usually am.
+I remember the first time we met was during a club committee meeting 2 years ago. She’s one year my junior, so she was there as the new secretary.
+Somehow we were both thrown together to do a short presentation about our club to that year’s freshmen. That was when I learnt that she was just as afraid of public speaking as I was. Of course, we bonded over our immense awkwardness.
+It’s always so relaxing to talk to her…
+I...really like being with her.
+I…
+…
+It’s my last semester.
+It’s now or never.
+If I don’t start chasing and making my feelings clear before I graduate, I may never have the chance ever again.
+I may not even get to talk to her anymore….
+Background: fades to black
+(Turns out Shio’s group had no vacancy.)
+(However, she hooks you up with a friend who is also looking for a team.)
+(You get to graduate!)
+(...but you’ll have to put in extra effort to spend more time with Shio.)
+Start of Semester
+Brief Tutorial: Graham’s Objective
+Background: School + Tutorial overlay (think Persona 3)
+> School has started! You couldn’t be in the same group as Shio but it’s not the end of the world! Scattered throughout the semester are events and chances for you to get closer to Shio. Be careful though—the semester only spans a short 3 months, so these opportunities are precious! Do your best with them, and who knows what will happen at the end of the semester!
+Pixel Walk
+Date: 14 2 2017
+Background: Graham’s room
+(There will be a talk about game development tomorrow. Your club is planning to go together.)
+(Text Shio?)
+Yes - 1 AP
+Background: Graham’s room + phone
+Show Sprites: Shio’s DP (left), Graham’s DP (right)
+	(What will you say?)
+Are you going tmr? - 1 AP
+	Graham: eh are you going for the talk tomorrow?
+	[phone notification sound]
+Shio: Ya
+Shio: You’re going right?
+Graham: yup. cya tmr then ^^
+Background: Graham’s room (put away phone)
+No Sprite
+	Where are we meeting? - 0 AP
+Graham: eh where and what time is the club supposed to meet?
+	[phone notification sound]
+Shio: 5pm
+Shio: Idk where yet
+Graham: kk thanks. cya tmr then ^^
+Background: Graham’s room (put away phone)
+No Sprite
+No - 0 AP
+Date: 15 2 2017
+Background: School
+No Sprite
+(Today is the day of the talk.)
+(You and your club meet at 5pm for dinner as agreed on.)
+(While waiting for the rest to reply about their location, you meet Shio.)
+Show Sprite: Shio Smile, Graham Neutral
+Graham: Sup.
+Shio: Oh, you’re here.
+Graham: Do you know where the others are? They haven’t replied me in the group chat.
+Shio: They’re up on the second floor of the canteen.
+Graham: Oh okay. Let’s go then?
+Shio: Sorry, I have to take care of something before that. Why don’t you head there first?
+Graham: It’s okay. I’ll just wait for you then.
+(You wait for Shio to be done, then find the rest together.)
+Background: Canteen
+(When you find them, they’ve already started eating.)
+Show Sprite: Classmate A, Graham Neutral
+Classmate A: Hi, you’re here!
+Graham: Omg you guys are almost done eating?
+Classmate A: Yeah, we were hungry so we just ate first. It’s okay, we’ll wait for you.
+Graham: You both got pizza?
+Classmate A: Yeah! There was an offer. Two slices for $6! You can even add a side after that for just $1!
+Graham: Man that looks good.
+Classmate A: It’s not bad!
+This is my chance!
+I should ask Shio if she wants to share the pizza deal. The other two are sharing too so I don’t think it’ll look too obvious…right?
+But if I ask her too enthusiastically the other two will most likely get suspicious.
+Or maybe I’ll just do this next time when we’re somewhere more private...and less embarrassing…?
+What should I do?
+Buy two slices and a side for yourself - 0 AP
+Graham: mmmm I’m damn hungry now, I think I’ll get all that for myself.
+No Sprite
+(You come back with a slice of Hawaiian, a slice of cheese pizza, and a roll of garlic bread.)
+(It smells great.)
+(You start eating. It tastes great too. You have no regrets.)
+(Shio comes back with ayam penyet.)
+(...)
+(She finishes her food before you!)
+Ask Shio to share - 3 AP
+Show Sprite: Shio Smile, Graham Smile
+Graham: Hey Shio, wanna share pizza then?
+Shio: Um okay, I don’t mind!
+()

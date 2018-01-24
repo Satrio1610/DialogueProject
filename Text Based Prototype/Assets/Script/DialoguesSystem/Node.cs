@@ -4,15 +4,20 @@ using UnityEngine;
 
 [System.Serializable]
 public class Node {
-	public enum NODE_TYPE {DIALOGUE,CHOICE};
+	public enum NODE_TYPE {
+		NONE,
+		DIALOGUE,
+		CHOICE,
+		BRANCH
+	};
 
 	[SerializeField]
 	protected NODE_TYPE NodeType; 
 
-	[SerializeField]
-	protected ConditionalNextNode nextNode;
 
 	public Node(){
+		this.NodeType = NODE_TYPE.NONE;
+
 	}
 
 	public NODE_TYPE getNodeType() {
@@ -21,11 +26,6 @@ public class Node {
 		}
 	}
 
-	public void setNextNode(ConditionalNextNode cnn) {
-		this.nextNode = cnn;
-	}
 
-	public int getNextNode(You player){
-		return nextNode.obtainTheNextDestination (player);
-	}
+		
 }

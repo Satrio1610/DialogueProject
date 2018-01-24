@@ -24,18 +24,18 @@ public class ChoiceButtonManager : MonoBehaviour {
 		}	
 	}
 
-	public void showChoices(List<KeyValuePair<string,int>> options){
+	public void showChoices(List<KeyValuePair<string,ChoiceEffect>> options){
 		for (int i = 0; i < options.Count; i++) {
 			Debug.Log ("emable" + i);
 			choiceButtons [i].gameObject.SetActive (true);
 			choiceButtons [i].setButtonText (options [i].Key);
-			choiceButtons [i].setNextNodeID (options [i].Value);
+			choiceButtons [i].setNewChoiceEffect(options [i].Value);
 		}
 	}
 
-	public void subscribeToIntEventButtons(UnityAction<int> action){
+	public void subscribeToSelectedEffectEventButtons(UnityAction<ChoiceEffect> action){
 		for (int i = 0; i < choiceButtons.Length; i++) {
-			choiceButtons [i].subscribeToIntEvent (action);
+			choiceButtons [i].subscribeToChoiceEffectEvent (action);
 		}
 	}
 

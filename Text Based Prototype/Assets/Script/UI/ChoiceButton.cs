@@ -6,20 +6,24 @@ using UnityEngine.UI;
 
 public class ChoiceButton : MonoBehaviour {
 
-	private class ChoiceButtonIntEvent: UnityEvent<int>{};
+	private class ChoiceButtonEffectEvent: UnityEvent<ChoiceEffect>{};
 
 	private Button button;
 	private Text buttonText; 
+	//TODO: REMOVE
 	private int nextNodeID; 
-	private ChoiceButtonIntEvent intEvent; 
+
+	private ChoiceEffect cEffect; 
+	private ChoiceButtonEffectEvent intEvent; 
 
 	void Awake() {
 		this.button = this.GetComponent<Button> (); 
 		this.buttonText = this.GetComponentInChildren<Text> (); 
+
 		this.nextNodeID = -1; 
 
-		this.intEvent = new ChoiceButtonIntEvent ();
-		this.button.onClick.AddListener (delegate{this.intEvent.Invoke(nextNodeID);});
+		this.intEvent = new ChoiceButtonEffectEvent ();
+		this.button.onClick.AddListener (delegate{this.intEvent.Invoke(cEffect);});
 	}
 
 	// Use this for initialization
@@ -42,11 +46,15 @@ public class ChoiceButton : MonoBehaviour {
 		this.nextNodeID = nodeID; 
 	}
 
-	public void subscribeToIntEvent(UnityAction<int> intAction){
+	public void setNewChoiceEffect(ChoiceEffect newEffect){
+		this.cEffect = newEffect;
+	}
+
+	public void subscribeToChoiceEffectEvent(UnityAction<ChoiceEffect> Action){
 		if (this.intEvent == null) {
-			this.intEvent = new ChoiceButtonIntEvent ();
+			this.intEvent = new ChoiceButtonEffectEvent ();
 		}
-		this.intEvent.AddListener (intAction);
+		this.intEvent.AddListener (Action);
 	}
 		
 

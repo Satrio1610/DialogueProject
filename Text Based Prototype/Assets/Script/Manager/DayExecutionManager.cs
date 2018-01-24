@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,12 +22,25 @@ public class DayExecutionManager : MonoBehaviour {
 	private bool isTesting;
 	[SerializeField]
 	private string testCharacterName; 
+	[SerializeField]
+	private GameRouteScript testingScript;
 
 	private bool hasSubscribeToUiDisplayEvent = false;
 	// Use this for initialization
 	void Start () {
 		if (isTesting) {
 			initializeTestingEnvironment ();
+			/*
+			this.currentDay = this.testingScript.DaysList[0];
+			Debug.Log (this.currentDay.getConversationNodes ().Count);
+			Day aDay = this.currentDay;
+			var a = new List<int>(aDay.getConversationNodes ().Keys);
+
+			for (int i = 0; i < a.Count; i++) {
+				Debug.Log (a[i]);
+			}
+			this.player.yourProgression.setCurrentDay (this.currentDayID);
+			*/
 		} else {
 		
 		}
@@ -34,7 +48,7 @@ public class DayExecutionManager : MonoBehaviour {
 
 		// subscribe to finish currentDialogue Event 
 		if(hasSubscribeToUiDisplayEvent == false){
-			this.uiManager.subscribeToChoiceButtonsManager_IntEvent(this.loadNextNodeFromChoice);
+			this.uiManager.subscribeToChoiceButtonsManager_EffectEvent(this.resolveChoiceEffect);
 			this.uiManager.subscribeToTextManagers_FinishedDialogueEvent (this.loadNextNode);	
 
 			this.hasSubscribeToUiDisplayEvent = true; 
@@ -45,20 +59,106 @@ public class DayExecutionManager : MonoBehaviour {
 		loadNextNode ();
 	}
 
+	public enum EXECUTOR_STATE {
+		IDLE, 
+		TRANSITION,
+	}
+
+	private EXECUTOR_STATE currentState; 
+	private DialoguePreAction currentPreAction; 
+	private int preActionIndex;
+	private bool hasFinishedCurrentPreAction;
 	void Update() {
-	}	
+		switch (currentState) {
+		case EXECUTOR_STATE.IDLE:
+			break;
+		case EXECUTOR_STATE.TRANSITION:
+			if (preActionIndex < currentPreAction.obtainedListOfPreAction ().Count) {
+
+
+
+				if (hasFinishedCurrentPreAction) {
+					KeyValuePair<DialoguePreAction.ACTION, int> nextAction = currentPreAction.obtainedListOfPreAction () [preActionIndex++];
+
+					DialoguePreAction.ACTION actionType = nextAction.Key; 
+					int pointer = nextAction.Value;
+
+					switch (actionType) {
+					case DialoguePreAction.ACTION.CHANGE_BACKGROUND:
+						BackgroundManager.BACKGROUND_IMAGE bImage = (BackgroundManager.BACKGROUND_IMAGE)pointer;
+						this.uiManager.setBackgroundImage (bImage);
+						break;
+					case DialoguePreAction.ACTION.SHOW_SPRITE:
+						break;
+					case DialoguePreAction.ACTION.HIDE_SPRITE:
+						break;
+					case DialoguePreAction.ACTION.FADE_IN:
+						Debug.Log ("fading in");
+						this.uiManager.startFadeIn ();
+						this.hasFinishedCurrentPreAction = false;
+						break;
+					case DialoguePreAction.ACTION.FADE_OUT:
+						this.uiManager.startFadeOut ();
+						this.hasFinishedCurrentPreAction = false;
+						break;
+					case DialoguePreAction.ACTION.PLAY_BGM:
+						SoundManagerScript.BGM_TYPE bgmType = (SoundManagerScript.BGM_TYPE)pointer;
+						SoundManagerScript.instance.playBGM (bgmType, true);
+						break;
+					case DialoguePreAction.ACTION.PLAY_SFX:
+						Debug.Log ("playing sfx");
+						SoundManagerScript.SFX_TYPE sfxType = (SoundManagerScript.SFX_TYPE)pointer; 
+						Debug.Log (sfxType);
+						SoundManagerScript.instance.playSFX (sfxType);
+						break;
+					case DialoguePreAction.ACTION.SHOW_DIALOGUE_BAR:
+						Debug.Log ("showing dialogue bar");
+						this.uiManager.setDialogueBoxAnimation (DialogueAnimationController.BAR_MOVEMENT.BRING_UP);
+						break;
+					case DialoguePreAction.ACTION.SHOW_DIALOGUE_BAR_INSTANT:
+						this.uiManager.setDialogueBoxAnimation (DialogueAnimationController.BAR_MOVEMENT.UP_INSTANT);
+						break; 
+					case DialoguePreAction.ACTION.HIDE_DIALOGUE_BAR:
+						this.uiManager.setDialogueBoxAnimation (DialogueAnimationController.BAR_MOVEMENT.BRING_DOWN);
+						break;
+					case DialoguePreAction.ACTION.HIDE_DIALOGUE_BAR_INSTANT:
+						this.uiManager.setDialogueBoxAnimation (DialogueAnimationController.BAR_MOVEMENT.DOWN_INSTANT);
+						break;
+					}
+				}
+				Debug.Log ("yellow");
+				hasFinishedCurrentPreAction = this.uiManager.hasFinishedFading ();
+			}
+
+			if (this.uiManager.hasFinishedDialogueAnimation () && preActionIndex >= currentPreAction.obtainedListOfPreAction ().Count) {
+				currentState = EXECUTOR_STATE.IDLE;
+				this.uiManager.updateDisplayWithCurrentNode (this.currentNode);
+			}
+			break;
+		}
+	}
 		
 	void loadNextNode(){
 		if (currentNode == null) {
-			currentDay.getConversationNodes ().TryGetValue (currentDay.getStartingNode (), out currentNode);
+			Debug.Log (currentDay.getStartingNode ());
+
+			currentNode = currentDay.getNextNode (currentDay.getStartingNode ());
 			this.player.yourProgression.setCurrentNode (this.currentDayID,currentDay.getStartingNode());
 		} else {
 			// on finish traversing, log player history 
-			int a = currentNode.getNextNode (player);	
+			int a = -1;
+
+			if (currentNode.getNodeType () == Node.NODE_TYPE.BRANCH) {
+				Branch currentBranch = (Branch)currentNode;
+				a = currentBranch.getNextNode (player);
+			} else if(currentNode.getNodeType() == Node.NODE_TYPE.DIALOGUE){
+				Dialogue currentDialogue = (Dialogue)currentNode;
+				a = currentDialogue.getNextNode ();
+			}
 
 			this.player.yourProgression.setCurrentNode (this.currentDayID,a);
 
-			currentDay.getConversationNodes ().TryGetValue (a, out currentNode);
+			currentNode = currentDay.getNextNode (a);
 			Debug.Log ("next node: " + a);
 
 		}
@@ -66,12 +166,30 @@ public class DayExecutionManager : MonoBehaviour {
 		displayNode ();
 	}
 
-	void loadNextNodeFromChoice(int nodeId){
-		this.currentDay.getConversationNodes ().TryGetValue (nodeId, out this.currentNode);
+	void resolveChoiceEffect(ChoiceEffect selectedChoiceEffect){
+		this.player.yourProgression.addAffectionLevel (selectedChoiceEffect.getAffectionPointEarned ());
+		currentNode = (Node)currentDay.getNextNode (selectedChoiceEffect.getDestinationNodeID());
 		displayNode ();
 	}
 
 	void displayNode() {
+		if (currentNode.getNodeType() == Node.NODE_TYPE.BRANCH) {
+			loadNextNode ();
+		}
+
+		if (currentNode.getNodeType() == Node.NODE_TYPE.DIALOGUE) {
+			Dialogue currentDialogue = (Dialogue)currentNode; 
+			Debug.Log ("number of detected preaction: " + currentDialogue.getPreAction ().obtainedListOfPreAction ().Count);
+			if (!currentDialogue.getPreAction ().isEmpty ()) {
+				//switchToTransition 
+				this.currentState = EXECUTOR_STATE.TRANSITION;
+				Debug.Log ("initiating preaction");
+				this.currentPreAction = currentDialogue.getPreAction (); 
+				this.preActionIndex = 0;
+				hasFinishedCurrentPreAction = true;
+				return; 
+			}
+		}
 		this.uiManager.updateDisplayWithCurrentNode (this.currentNode);
 	}
 
@@ -85,6 +203,7 @@ public class DayExecutionManager : MonoBehaviour {
 
 	#region testing
 	void initializeTestingEnvironment() {
+		
 		Character testCharacter = new Character ();
 		testCharacter.setName (this.testCharacterName);
 
@@ -94,10 +213,17 @@ public class DayExecutionManager : MonoBehaviour {
 		Day testDay = new Day (); 
 		testDay.setStartingNode (10);
 
-		Dictionary<int,Node> testNodes = new Dictionary<int, Node> (); 
-
+		DialogueDictionary testDialogue = new DialogueDictionary(); 
+		ChoiceDictionary testChoice = new ChoiceDictionary (); 
+		BranchDictionary testBranch = new BranchDictionary ();
 
 		//// list of dialogues nodes////
+		DialoguePreAction preAction0 = new DialoguePreAction();
+		preAction0.addNewPreAction (new KeyValuePair<DialoguePreAction.ACTION, int> (DialoguePreAction.ACTION.FADE_IN, -1));
+		preAction0.addNewPreAction( new KeyValuePair<DialoguePreAction.ACTION,int> (DialoguePreAction.ACTION.SHOW_DIALOGUE_BAR,0));
+		preAction0.addNewPreAction(new KeyValuePair<DialoguePreAction.ACTION,int> (DialoguePreAction.ACTION.PLAY_SFX,(int)SoundManagerScript.SFX_TYPE.PLANE_SFX));
+		preAction0.addNewPreAction(new KeyValuePair<DialoguePreAction.ACTION, int>(DialoguePreAction.ACTION.PLAY_BGM,(int)SoundManagerScript.BGM_TYPE.BGM_WHATEVER));
+			
 		List<string> dialogue0List = new List<string> {
 			"> Airport, Food Court.",
 			"> You've finished checking in and have your boarding pass with you.",
@@ -106,14 +232,10 @@ public class DayExecutionManager : MonoBehaviour {
 
 		Dialogue dialogue0 = new Dialogue ();
 		dialogue0.setListOfDialogues (dialogue0List);
-
-		ConditionalNextNode nextNode0 = new ConditionalNextNode (); 
-		nextNode0.setConditional (false);
-		nextNode0.setDefaultNextNode (0);
-
+		dialogue0.setPreAction (preAction0);
 		dialogue0.setCharacter (narratorCharacter);
 
-		dialogue0.setNextNode (nextNode0);
+		dialogue0.setNextNodeID (0);
 
 		List<string> dialogue1List = new List<string> {
 			"Hmm... I still can't believe that he is really going to come see me off...",
@@ -130,7 +252,7 @@ public class DayExecutionManager : MonoBehaviour {
 
 		dialogue1.setCharacter (testCharacter);
 
-		dialogue1.setNextNode (nextNode1);
+		dialogue1.setNextNodeID (1);
 
 		List<string> dialogue2List = new List<string> {
 			"uuu... I am nervous...",
@@ -141,13 +263,9 @@ public class DayExecutionManager : MonoBehaviour {
 
 		Dialogue dialogue2 = new Dialogue (); 
 		dialogue2.setListOfDialogues (dialogue2List);
-
-		ConditionalNextNode nextNode2 = new ConditionalNextNode (); 
-		nextNode2.setConditional (false);
-		nextNode2.setDefaultNextNode (2);
-
+		 
 		dialogue2.setCharacter (testCharacter);
-		dialogue2.setNextNode (nextNode2);
+		dialogue2.setNextNodeID (2);
 
 		List<string> dialogue3List = new List<string> {
 			"What if he think I am weird after that outing.", 
@@ -167,19 +285,17 @@ public class DayExecutionManager : MonoBehaviour {
 		ConditionalNextNode nextNode3 = new ConditionalNextNode (); 
 		nextNode3.setConditional (false);
 
-		ProgressionStats progStatsFor3 = new ProgressionStats (2, 0, 0);
-		nextNode3.populateDestinationList (new KeyValuePair<ProgressionStats, int> (progStatsFor3, 3));
-		nextNode3.setDefaultNextNode (5);
-
 		dialogue3.setCharacter (testCharacter);
-		dialogue3.setNextNode (nextNode3);
+		dialogue3.setNextNodeID (5);
 
 		Choice choice1 = new Choice(); 
 
-		KeyValuePair<string,int> c1 = new KeyValuePair<string, int> ("Don't answer immediately", 3);
-		KeyValuePair<string,int> c2 = new KeyValuePair<string,int> ("Tell him where you currently are", 4);
+		ChoiceEffect c10 = new ChoiceEffect (3, 0);
+		ChoiceEffect c20 = new ChoiceEffect (4, 0);
+		KeyValuePair<string,ChoiceEffect> c1 = new KeyValuePair<string, ChoiceEffect> ("Don't answer immediately", c10);
+		KeyValuePair<string,ChoiceEffect> c2 = new KeyValuePair<string,ChoiceEffect> ("Tell him where you currently are", c20);
 
-		List<KeyValuePair<string,int>> listOfChoices1 = new List<KeyValuePair<string,int>> { c1, c2 };
+		List<KeyValuePair<string,ChoiceEffect>> listOfChoices1 = new List<KeyValuePair<string,ChoiceEffect>> { c1, c2 };
 
 		choice1.populateChoices (listOfChoices1);
 
@@ -193,12 +309,10 @@ public class DayExecutionManager : MonoBehaviour {
 		dialogue4.setListOfDialogues (dialogue4List);
 
 		ConditionalNextNode nextNode4 = new ConditionalNextNode (); 
-		nextNode4.setConditional (false);
 
-		nextNode4.setDefaultNextNode (5);
 
 		dialogue4.setCharacter (testCharacter);
-		dialogue4.setNextNode (nextNode4);
+		dialogue4.setNextNodeID (5);
 
 		List<string> dialogue5List = new List<string> {
 			"Hummm... I hope I look okay...",
@@ -209,29 +323,27 @@ public class DayExecutionManager : MonoBehaviour {
 		Dialogue dialogue5 = new Dialogue ();
 		dialogue5.setListOfDialogues (dialogue5List);
 
-		ConditionalNextNode nextNode5 = new ConditionalNextNode (); 
-		nextNode5.setConditional (true);
-
-		ProgressionStats progStats5 = new ProgressionStats (1, 0, 0);
-
-
-		nextNode5.setDefaultNextNode (-1);
 
 		dialogue5.setCharacter (testCharacter);
-		dialogue5.setNextNode (nextNode5);
+		dialogue5.setNextNodeID (-1);
 
-		testNodes.Add (10, (Node)dialogue0);
-		testNodes.Add (0, (Node)dialogue1);
-		testNodes.Add (1, (Node)dialogue2);
-		testNodes.Add (2, (Node)dialogue3);
-		testNodes.Add (5, (Node)choice1);
-		testNodes.Add (3, (Node)dialogue4);
-		testNodes.Add (4, (Node)dialogue5);
-		testDay.populateConversationnodes (testNodes);
+		testDialogue.Add (10,dialogue0);
+		testDialogue.Add (0, dialogue1);
+		testDialogue.Add (1, dialogue2);
+		testDialogue.Add (2, dialogue3);
+		testDialogue.Add (3, dialogue4);
+		testDialogue.Add (4, dialogue5);
+
+		testChoice.Add (5, choice1);
+		testDay.populateConversationnodes (testDialogue);
+		testDay.populateBranchNodes (testBranch);
+		testDay.populateChoiceNodes (testChoice);
+
 		this.currentDay = testDay;
 		this.currentDayID = 0; 
 
 		this.player.yourProgression.setCurrentDay (this.currentDayID);
+
 	}
 
 	#endregion

@@ -132,9 +132,9 @@ public class TextDisplayManager : MonoBehaviour {
 
 		// Switch the box if the name is empty
 		if (name == string.Empty) {
-			this.dialogueBox.sprite = this.noNameSprite; 
+			showNoNameBoxDialogueBar (); 
 		} else {
-			this.dialogueBox.sprite = this.nameSprite;
+			showNameBoxDialogueBar ();
 		}
 
 		this.nameDisplay.text = name; 
@@ -143,6 +143,18 @@ public class TextDisplayManager : MonoBehaviour {
 		moveToNextDialogueSegment ();
 	}
 
+	public void showNoNameBoxDialogueBar() {
+		this.nameDisplay.text = string.Empty;
+		this.dialogueBox.sprite = this.noNameSprite; 
+	}
+
+	public void showNameBoxDialogueBar() {
+		this.dialogueBox.sprite = this.nameSprite;
+	}
+
+	public void clearText() {
+		this.dialogueDisplay.text = string.Empty;
+	}
 	#endregion
 
 	#region event subscription

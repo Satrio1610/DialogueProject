@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Character: MonoBehaviour {
+[CreateAssetMenu(menuName = "Character", order = 1)]
+public class Character: ScriptableObject {
 	[SerializeField]
 	private string characterName;
 
