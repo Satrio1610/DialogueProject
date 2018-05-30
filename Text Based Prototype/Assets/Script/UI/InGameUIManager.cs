@@ -122,7 +122,7 @@ public class InGameUIManager : MonoBehaviour {
 	}
 	#endregion
 
-	#regionTransitionManager
+	#region TransitionManager
 	public void startFadeOut() {
 		this.ImageTransitionManager.fadeOutTransition ();
 	}

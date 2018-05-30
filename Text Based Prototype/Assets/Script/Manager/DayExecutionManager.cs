@@ -61,7 +61,8 @@ public class DayExecutionManager : MonoBehaviour {
 
 	public enum EXECUTOR_STATE {
 		IDLE, 
-		TRANSITION,
+		NODE_TRANSITION,
+        DAY_TRANSITION
 	}
 
 	private EXECUTOR_STATE currentState; 
@@ -72,7 +73,9 @@ public class DayExecutionManager : MonoBehaviour {
 		switch (currentState) {
 		case EXECUTOR_STATE.IDLE:
 			break;
-		case EXECUTOR_STATE.TRANSITION:
+            case EXECUTOR_STATE.DAY_TRANSITION:
+                break;
+		case EXECUTOR_STATE.NODE_TRANSITION:
 			if (preActionIndex < currentPreAction.obtainedListOfPreAction ().Count) {
 
 
@@ -182,7 +185,7 @@ public class DayExecutionManager : MonoBehaviour {
 			Debug.Log ("number of detected preaction: " + currentDialogue.getPreAction ().obtainedListOfPreAction ().Count);
 			if (!currentDialogue.getPreAction ().isEmpty ()) {
 				//switchToTransition 
-				this.currentState = EXECUTOR_STATE.TRANSITION;
+				this.currentState = EXECUTOR_STATE.NODE_TRANSITION;
 				Debug.Log ("initiating preaction");
 				this.currentPreAction = currentDialogue.getPreAction (); 
 				this.preActionIndex = 0;
